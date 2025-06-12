@@ -19,9 +19,26 @@ $dados = filter_input_array(type: INPUT_POST, options: FILTER_DEFAULT);
 if(!empty($dados['SendLogin'])){
   var_dump(value: $dados);
 }
+
+//configurações do banco//
+
+$most='localhost';
+$user='root'; //user padrão
+$password=''//senha padrão (vazia)
+$database='system_cad';
+
+//conectar ao banco
+$conn=new mySQL ($host, $user, $password, $database);
+
+//verificar conexão
+
+if($conn_connect_error){
+  die("falha na conexão." $conn_connect_error);
+}
+
+//receber dados da farms
+
 ?>
-
-
 
 <!--início do formulário-->
 <form method="POST" action="">
@@ -34,9 +51,6 @@ if(!empty($dados['SendLogin'])){
 <input type="submit" name="SendLogin" value="Acessar"> <br></br>
 </form>
 
-
-
-
   <style>
     .navbar {
       
@@ -47,6 +61,7 @@ if(!empty($dados['SendLogin'])){
 </div>
   <h2>Informações sobre a minha empresa: </h2>
   <form action=""></form>
+
 </body>
 </html>
 
