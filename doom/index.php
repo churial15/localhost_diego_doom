@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -37,9 +38,30 @@ if($conn_connect_error){
 }
 
 //receber dados da farms
+$dados=filter_input_array(input_post, filter_default);
 
+//acessar IP quando enviar
+if(!empty($dados["SendLogin"])){
+  //preparar consulta SQL
+  $query_user=("select id password from user where user=?limit 1")
+  $stmt="$conn prepare" ($query_user);
+  $stmt bind_param("s" $dados["user"]);
+  $execute();
+  $result=$get_result();
+
+  if($result="num_rows==1"){
+    //user encontrado, verificar senha
+    $now_user=$result
+    fetch_assoc();
+
+    if(password_verify ($dados["SendLogin"] $now_user['send'])){
+
+      //senha correta-rediricionar
+      session_start();
+    }
+  }
+}
 ?>
-
 <!--início do formulário-->
 <form method="POST" action="">
   <label>usuário:</label>
