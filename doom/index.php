@@ -9,59 +9,57 @@
 <body>
 
 <?php
+// Exemplo de senha criptografada (só para demonstração)
+echo password_hash("12346", PASSWORD_DEFAULT);
 
-//criptografia de senha
-echo password_hash(12346, PASSWORD_DEFAULT);
+// Receber dados do formulário
+$dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
-//receber dados do formulário//
-$dados = filter_input_array(type: INPUT_POST, options: FILTER_DEFAULT);
+if (!empty($dados['SendLogin'])) {
+    var_dump($dados);
 
-//acessar o IF quando o user  clicar no botão de acessar o formuláro//
-if(!empty($dados['SendLogin'])){
-  var_dump(value: $dados);
-}
+    // Configurações do banco
+    $host = 'localhost';
+    $user = 'root';
+    $password = '';
+    $database = 'system_cad';
 
-//configurações do banco//
+    // Conectar ao banco
+    $conn = new mysqli($host, $user, $password, $database);
 
-$most='localhost';
-$user='root'; //user padrão
-$password=''//senha padrão (vazia)
-$database='system_cad';
-
-//conectar ao banco
-$conn=new mySQL ($host, $user, $password, $database);
-
-//verificar conexão
-
-if($conn_connect_error){
-  die("falha na conexão." $conn_connect_error);
-}
-
-//receber dados da farms
-$dados=filter_input_array(input_post, filter_default);
-
-//acessar IP quando enviar
-if(!empty($dados["SendLogin"])){
-  //preparar consulta SQL
-  $query_user=("select id password from user where user=?limit 1")
-  $stmt="$conn prepare" ($query_user);
-  $stmt bind_param("s" $dados["user"]);
-  $execute();
-  $result=$get_result();
-
-  if($result="num_rows==1"){
-    //user encontrado, verificar senha
-    $now_user=$result
-    fetch_assoc();
-
-    if(password_verify ($dados["SendLogin"] $now_user['send'])){
-
-      //senha correta-rediricionar
-      session_start();
+    // Verificar conexão
+    if ($conn->connect_error) {
+        die("Falha na conexão: " . $conn->connect_error);
     }
-  }
+
+    // Preparar consulta SQL
+    $query_user = "SELECT id, password FROM user WHERE user = ? LIMIT 1";
+
+    $stmt = $conn->prepare($query_user);
+    $stmt->bind_param("s", $dados["user"]);
+    $stmt->execute();
+
+    $result = $stmt->get_result();
+
+    if ($result->num_rows == 1) {
+        $now_user = $result->fetch_assoc();
+
+        if (password_verify($dados['senha'], $now_user['password'])) {
+            session_start();
+            echo "Login efetuado com sucesso!";
+            // Aqui você pode redirecionar ou continuar a sessão
+        } else {
+            echo "Senha incorreta.";
+        }
+    } else {
+        echo "Usuário não encontrado.";
+    }
+
+    $stmt->close();
+    $conn->close();
 }
 ?>
+
 <!--início do formulário-->
 <form method="POST" action="">
   <label>usuário:</label>
