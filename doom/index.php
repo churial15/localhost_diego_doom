@@ -70,18 +70,3 @@ if (!empty($dados['SendLogin'])) {
 
 <input type="submit" name="SendLogin" value="Acessar"> <br></br>
 </form>
-
-  <style>
-    .navbar {
-      
-    }
-  </style>
-  <nav><div class="navbar"> <ul>Home</ul> <ul>Produtos</ul> <ul>Infomações</ul> 
-</nav>
-</div>
-  <h2>Informações sobre a minha empresa: </h2>
-  <form action=""></form>
-
-</body>
-</html>
-
