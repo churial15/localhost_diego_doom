@@ -1,4 +1,4 @@
-<!DOCTYPE html>More actions
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,78 +8,69 @@
 <body>
 
 <?php
-// Exemplo de senha criptografada (só para demonstração)
-echo password_hash("12346", PASSWORD_DEFAULT);
 
-// Receber dados do formulário
+// Configurações do banco de dados
+$host = 'localhost';
+$user = 'root'; // usuário padrão do XAMPP
+$password = ''; // senha padrão do XAMPP (vazia)
+$database = 'login'; // substitua pelo nome do seu banco de dados
+
+// Conectar ao banco de dados
+$conn = new mysqli($host, $user, $password, $database);
+
+// Verificar conexão
+if ($conn->connect_error) {
+    die("Falha na conexão: " . $conn->connect_error);
+}
+
+// Criptografia de senha (apenas para exemplo/criação de usuários)
+// echo password_hash(123456, PASSWORD_DEFAULT);
+
+// Receber dados do forms
 $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 
-if (!empty($dados['SendLogin'])) {
-    var_dump($dados);
-
-    // Configurações do banco
-    $host = 'localhost';
-    $user = 'root';
-    $password = '';
-    $database = 'system_cad';
-
-    // Conectar ao banco
-    $conn = new mysqli($host, $user, $password, $database);
-
-    // Verificar conexão
-    if ($conn->connect_error) {
-        die("Falha na conexão: " . $conn->connect_error);
-    }
-
-    // Preparar consulta SQL
-    $query_user = "SELECT id, password FROM user WHERE user = ? LIMIT 1";
-
-    $stmt = $conn->prepare($query_user);
-    $stmt->bind_param("s", $dados["user"]);
+// Acessar o IF quando o usuario clicar no botão de acesso do formulario
+if (!empty($dados["Sendlogin"])) {
+    // Preparar a consulta SQL
+    $query_usuario = "SELECT id, senha FROM usuarios WHERE usuario = ? LIMIT 1";
+    $stmt = $conn->prepare($query_usuario);
+    $stmt->bind_param("s", $dados["usuario"]);
     $stmt->execute();
-
-    $result = $stmt->get_result();
-
-    if ($result->num_rows == 1) {
-        $now_user = $result->fetch_assoc();
-
-        if (password_verify($dados['senha'], $now_user['password'])) {
+    $resultado = $stmt->get_result();
+    
+    if ($resultado->num_rows == 1) {
+        // Usuário encontrado, verificar senha
+        $row_usuario = $resultado->fetch_assoc();
+        if (md5($dados["senha_usuario"], $row_usuario['senha'])) {
+            // Senha correta - iniciar sessão e redirecionar
             session_start();
-            echo "Login efetuado com sucesso!";
-            // Aqui você pode redirecionar ou continuar a sessão
+            $_SESSION['id'] = $row_usuario['id'];
+            $_SESSION['usuario'] = $dados["usuario"];
+            
+            header("Location: dashboard.php"); // redireciona para página restrita
+            exit();
         } else {
-            echo "Senha incorreta.";
+            echo "<p style='color: red'>Erro: Senha incorreta!</p>";
         }
     } else {
-        echo "Usuário não encontrado.";
+        echo "<p style='color: red'>Erro: Usuário não encontrado!</p>";
     }
-
-    $stmt->close();
-    $conn->close();
 }
+
 ?>
 
-<!--início do formulário-->
+<!-- Inicio do formulario -->
 <form method="POST" action="">
-  <label>usuário:</label>
-<input type="text" name="user" placeholder="Digite o usuário">
-<br></br>
-<label>Senha:</label>
-<input type="password" name="senha" placeholder="Digite a senha"> <br></br>
 
-<input type="submit" name="SendLogin" value="Acessar"> <br></br>
+<label>Usuário: </label>
+<input type="text" name="usuario" placeholder="digite o usuário" required><br><br>
+
+<label>Senha: </label>
+<input type="password" name="senha_usuario" placeholder="digite a senha" required><br><br>
+
+<input type="submit" name="Sendlogin" value="Acessar">
 </form>
-
-  <style>
-    .navbar {
-      
-    }
-  </style>
-  <nav><div class="navbar"> <ul>Home</ul> <ul>Produtos</ul> <ul>Infomações</ul> 
-</nav>
-</div>
-  <h2>Informações sobre a minha empresa: </h2>
-  <form action=""></form>
+<!-- fim do formulario -->
 
 </body>
 </html>
