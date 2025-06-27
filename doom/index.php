@@ -1,9 +1,11 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Empresa do Diego</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
@@ -13,10 +15,10 @@
 $host = 'localhost';
 $user = 'root'; // usuário padrão do XAMPP
 $password = ''; // senha padrão do XAMPP (vazia)
-$database = 'login'; // substitua pelo nome do seu banco de dados
+$database = 'system_cad'; // substitua pelo nome do seu banco de dados
 
 // Conectar ao banco de dados
-$conn = new mysqli($host, $user, $password, $database);
+//$conn = new mysqli($host, $user, $password, $database);
 
 // Verificar conexão
 if ($conn->connect_error) {
@@ -24,7 +26,7 @@ if ($conn->connect_error) {
 }
 
 // Criptografia de senha (apenas para exemplo/criação de usuários)
-// echo password_hash(123456, PASSWORD_DEFAULT);
+// echo password_hash(12346, PASSWORD_DEFAULT);
 
 // Receber dados do forms
 $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
@@ -32,7 +34,7 @@ $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
 // Acessar o IF quando o usuario clicar no botão de acesso do formulario
 if (!empty($dados["Sendlogin"])) {
     // Preparar a consulta SQL
-    $query_usuario = "SELECT id, senha FROM usuarios WHERE usuario = ? LIMIT 1";
+    $query_usuario = "SELECT id_user, senha FROM usuários WHERE usuário = ? LIMIT 1";
     $stmt = $conn->prepare($query_usuario);
     $stmt->bind_param("s", $dados["usuario"]);
     $stmt->execute();
@@ -58,7 +60,6 @@ if (!empty($dados["Sendlogin"])) {
 }
 
 ?>
-
 <!-- Inicio do formulario -->
 <form method="POST" action="">
 
@@ -71,6 +72,11 @@ if (!empty($dados["Sendlogin"])) {
 <input type="submit" name="Sendlogin" value="Acessar">
 </form>
 <!-- fim do formulario -->
-
+  <nav><div class="navbar"> <ul>Home</ul> <ul>Produtos</ul> <ul>Infomações</ul> 
+</nav>
+</div>
+  <h2>Informações sobre a minha empresa: </h2>
+  <form action=""></form>
 </body>
 </html>
+
