@@ -14,19 +14,16 @@
 // Configurações do banco de dados
 $host = 'localhost';
 $user = 'root'; // usuário padrão do XAMPP
-$password = ''; // senha padrão do XAMPP (vazia)
+$password = 'root'; // senha padrão do XAMPP (vazia)
 $database = 'system_cad'; // substitua pelo nome do seu banco de dados
 
 // Conectar ao banco de dados
-//$conn = new mysqli($host, $user, $password, $database);
+$conn = new mysqli($host, $user, $password, $database);
 
 // Verificar conexão
 if ($conn->connect_error) {
     die("Falha na conexão: " . $conn->connect_error);
 }
-
-// Criptografia de senha (apenas para exemplo/criação de usuários)
-// echo password_hash(12346, PASSWORD_DEFAULT);
 
 // Receber dados do forms
 $dados = filter_input_array(INPUT_POST, FILTER_DEFAULT);
@@ -62,19 +59,18 @@ if (!empty($dados["Sendlogin"])) {
 ?>
 <!-- Inicio do formulario -->
 <form method="POST" action="">
-
+    <div class='usuario'>
 <label>Usuário: </label>
-<input type="text" name="usuario" placeholder="digite o usuário" required><br><br>
+<input type="text" name="usuario" placeholder="digite o usuário" required><br><br></div>
 
+    <div class='senha'>
 <label>Senha: </label>
-<input type="password" name="senha_usuario" placeholder="digite a senha" required><br><br>
+<input type="password" name="senha_usuario" placeholder="digite a senha" required><br><br></div>
 
 <input type="submit" name="Sendlogin" value="Acessar">
 </form>
 <!-- fim do formulario -->
-  <nav><div class="navbar"> <ul>Home</ul> <ul>Produtos</ul> <ul>Infomações</ul> 
-</nav>
-</div>
+  <h3><ul>Home</ul> <ul>Produtos</ul> <ul>Infomações</ul></h3>
   <h2>Informações sobre a minha empresa: </h2>
   <form action=""></form>
 </body>
