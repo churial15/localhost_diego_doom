@@ -7,63 +7,92 @@
   <!-- Bootstrap 5 CDN -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
-    body {
-      background: linear-gradient(135deg, #1e3c72, #2a5298);
-      color: #fff;
-    }
+  html, body {
+    height: 100%;
+    margin: 0;
+    background: linear-gradient(135deg, #1e3c72, #2a5298);
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+  }
 
-    .navbar {
-      background-color: rgba(0, 0, 0, 0.8);
-    }
+  body > footer {
+    margin-top: auto;
+  }
 
-    .navbar-brand,
-    .nav-link {
-      color: #fff !important;
-    }
+  .navbar {
+    background-color: rgba(0, 0, 0, 0.8);
+  }
 
-    .hero-section {
-      text-align: center;
-      padding: 60px 20px;
-    }
+  .navbar-brand,
+  .nav-link {
+    color: #fff !important;
+    position: relative;
+    transition: all 0.3s ease;
+  }
 
-    .logo-home {
-      max-width: 220px;
-      margin-bottom: 20px;
-    }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0%;
+    height: 2px;
+    background-color: #fff;
+    transition: width 0.3s ease;
+  }
 
-    .card {
-      background-color: #f1f1f1;
-      color: #333;
-      border: none;
-      border-radius: 12px;
-      transition: transform 0.3s ease;
-    }
+  .nav-link:hover::after {
+    width: 100%;
+  }
 
-    .card:hover {
-      transform: scale(1.03);
-    }
+  .nav-link:hover {
+    opacity: 0.7;
+  }
 
-    footer {
-      background-color: #fff9c4;
-      padding: 30px 0;
-      border-top-left-radius: 60px;
-      border-top-right-radius: 60px;
-      margin-top: 80px;
-    }
+  .hero-section {
+    text-align: center;
+    padding: 60px 20px;
+  }
 
-    footer p {
-      color: #333;
-      margin: 0;
-      text-align: center;
-    }
-  </style>
+  .logo-home {
+    max-width: 220px;
+    margin-bottom: 20px;
+  }
+
+  .card {
+  background-color: #e2ccb8;
+  color: #333;
+  border: 2px solid #fff; /* contorno branco fino */
+  border-radius: 12px;
+  transition: transform 0.3s ease;
+}
+
+  .card:hover {
+    transform: scale(1.03);
+  }
+
+  footer {
+    background-color: #fff9c4;
+    padding: 30px 0;
+    border-top-left-radius: 60px;
+    border-top-right-radius: 60px;
+    text-align: center;
+  }
+
+  footer p {
+    color: #333;
+    margin: 0;
+  }
+</style>
+
 </head>
 <body>
 
 <!-- NAVBAR -->
 <nav class="navbar navbar-expand-lg fixed-top">
   <div class="container">
-    <a class="navbar-brand" href="#">Empresa Fictícia</a>
+    <a class="navbar-brand" href="#">Soluções Lazzarin</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#menu">
       <span class="navbar-toggler-icon"></span>
     </button>
@@ -112,7 +141,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="container">
-    <p>© 2025 Empresa Fictícia — Todos os direitos reservados.</p>
+    <p>© 2025 Soluções Lazzarin — Todos os direitos reservados.</p>
   </div>
 </footer>
 
